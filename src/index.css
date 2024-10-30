@@ -1,0 +1,35 @@
+/*.change {
+  color: green;
+  background: rgb(235, 234, 234);
+  font-size: 16px;
+  border: solid 2px green;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+.error {
+  color: red;
+  background: rgb(235, 234, 234);
+  font-size: 16px;
+  border: solid 2px green;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 10px;
+}*/
+.notification {
+  padding: 10px;
+  margin: 10px 0;
+  background: rgb(235, 234, 234);
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.notification.change {
+  color: green;
+  border: 2px solid green;
+}
+
+.notification.error {
+  color: red;
+  border: 2px solid red;
+}

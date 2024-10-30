@@ -3,6 +3,7 @@ import axios from "axios";
 import Persons from "./components/Persons";
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
+import Notification from "./components/Notification";
 import personService from "./services/Persons";
 
 const App = () => {
@@ -10,6 +11,8 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [phone, setPhone] = useState("");
   const [check, setCheck] = useState("");
+  const [changeMessage, setChangeMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     console.log("effect");
@@ -69,10 +72,24 @@ const App = () => {
             );
             setNewName("");
             setPhone("");
+            setChangeMessage(`${newName}'s phone number was changed`);
+            setTimeout(() => {
+              setChangeMessage(null);
+            }, 5000);
+          })
+          .catch((error) => {
+            setErrorMessage(
+              `Information of '${newName}' has already been removed from the server`
+            );
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 5000);
+            console.error(error);
           });
       }
       return;
     }
+
     const newPerson = {
       name: newName,
       number: phone,
@@ -86,8 +103,13 @@ const App = () => {
       setPersons(persons.concat(returnedPerson));
       setNewName("");
       setPhone("");
+      setChangeMessage(`Added ${newName}`);
+      setTimeout(() => {
+        setChangeMessage(null);
+      }, 5000);
     });
   };
+
   const checkName = persons.filter((person) =>
     person.name.toLowerCase().includes(check.toLowerCase())
   );
@@ -99,9 +121,19 @@ const App = () => {
         .delete(id)
         .then(() => {
           setPersons(persons.filter((person) => person.id !== id));
+          setChangeMessage(` ${name} was deleted`);
+          setTimeout(() => {
+            setChangeMessage(null);
+          }, 5000);
         })
         .catch((error) => {
-          alert(`Error: ${error.response.data.error}`);
+          alert(
+            `Error: Information of '${newName}' has already been removed from the server`
+          );
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000);
+          console.error(error);
         });
     }
   };
@@ -109,6 +141,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={changeMessage} type="change" />
+      <Notification message={errorMessage} type="error" />
+
       <Filter check={check} handleCheckChange={handleCheckChange} />
 
       <h3>Add a new</h3>
