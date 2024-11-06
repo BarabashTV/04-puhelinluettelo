@@ -56,7 +56,6 @@ const App = () => {
     console.log(personExists);
 
     if (personExists) {
-      // Если человек существует, спрашиваем подтверждение
       if (
         window.confirm(
           `${newName} is already added to the phonebook, replace the old number with the new one?`
